@@ -1,4 +1,4 @@
-import mapboxgl from "mapbox-gl";
+import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 
 // Based on this example: https://docs.mapbox.com/mapbox-gl-js/example/heatmap-layer/
 export const initMap = (ref, featureData) => {
