@@ -1,5 +1,6 @@
 import mapboxgl from "mapbox-gl";
 
+// Based on this example: https://docs.mapbox.com/mapbox-gl-js/example/heatmap-layer/
 export const initMap = (ref, featureData) => {
   mapboxgl.accessToken =
     "pk.eyJ1Ijoic2FtbGVhcm5lciIsImEiOiJja2IzNTFsZXMwaG44MzRsbWplbGNtNHo0In0.BmjC6OX6egwKdm0fAmN_Nw";
