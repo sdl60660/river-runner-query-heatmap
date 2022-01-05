@@ -1,11 +1,11 @@
-import "./App.css";
+import "./Map.css";
 import { useState, useEffect, useRef } from "react";
 
 import Controls from "./components/Controls";
 import { initMap, updateMapData } from "./utils";
 import rawQueryData from "./data/all_queries.json";
 
-function App() {
+function Map() {
   const mapRef = useRef(null);
 
   const [mapboxMap, setMapboxMap] = useState(null);
@@ -58,7 +58,7 @@ function App() {
   }, [mapboxMap, dateRangeFilter, linkFilter]);
 
   return (
-    <div className="App">
+    <div className="Map">
       <div id={"map"} ref={mapRef}>
         <Controls
           dataset={rawQueryData}
@@ -70,4 +70,4 @@ function App() {
   );
 }
 
-export default App;
+export default Map;
