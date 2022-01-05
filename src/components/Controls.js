@@ -52,7 +52,7 @@ const Controls = ({ dataset, setDateRangeFilter, setLinkFilter }) => {
         {dateValueLabelFormat(allDates.slice(-1)[0])}.
       </p>
       <Box sx={{ width: 325, padding: "5px" }}>
-        Timestamp of Query:
+        Timestamp of Search:
         <Slider
           min={allDates[0]}
           max={allDates.slice(-1)[0]}
