@@ -7,11 +7,21 @@ import Select from "@mui/material/Select";
 import Grid from "@mui/material/Grid";
 
 const dateValueLabelFormat = (value) => {
-  return new Date(value).toLocaleString("en-US");
+  return new Date(value).toLocaleString("en-US", {
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZoneName: "short" 
+  });
 };
 
 const Controls = ({ dataset, setDateRangeFilter, setLinkFilter }) => {
-  const allDates = dataset.sort((a, b) => a.timestamp - b.timestamp).slice(300).map((d) => d.timestamp);
+  const allDates = dataset
+    .sort((a, b) => a.timestamp - b.timestamp)
+    .slice(300)
+    .map((d) => d.timestamp);
 
   const [dateRange, setDateRange] = useState([allDates[0], allDates.slice(-1)[0]]);
   const [shareLink, setShareLink] = useState("all");
@@ -21,18 +31,17 @@ const Controls = ({ dataset, setDateRangeFilter, setLinkFilter }) => {
 
     let filterVal = null;
     if (event.target.value === "yes") {
-      filterVal = true
-    }
-    else if (event.target.value === "no") {
+      filterVal = true;
+    } else if (event.target.value === "no") {
       filterVal = false;
-    };
+    }
 
     setLinkFilter(filterVal);
   };
 
   const handleDateChange = (event, newValue) => {
     setDateRange(newValue);
-    setDateRangeFilter(newValue)
+    setDateRangeFilter(newValue);
   };
 
   return (
@@ -42,7 +51,7 @@ const Controls = ({ dataset, setDateRangeFilter, setLinkFilter }) => {
         <Slider
           min={allDates[0]}
           max={allDates.slice(-1)[0]}
-          step={600}
+          step={60000}
           defaultValue={[allDates[0], allDates.slice(-1)[0]]}
           getAriaLabel={() => "Date Range"}
           value={dateRange}

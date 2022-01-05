@@ -16,6 +16,7 @@ code {
   top: 0;
   bottom: 0;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .controls-wrapper {
@@ -30,6 +31,16 @@ code {
 
 #share-link-select-label {
   color: black;
+}
+
+.mapboxgl-popup {
+  max-width: 400px;
+  font: 12px/20px "Helvetica Neue", Arial, Helvetica, sans-serif;
+  z-index: 200;
+}
+
+.mapboxgl-ctrl-attrib {
+  display: none;
 }
 
 @media only screen and (max-width: 700px) {

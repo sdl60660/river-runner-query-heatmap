@@ -5,6 +5,13 @@ import Controls from "./components/Controls";
 import { initMap, updateMapData } from "./utils";
 import rawQueryData from "./data/all_queries.json";
 
+const filterExceptions = (data) => {
+  // this takes care of the mysterious diagonal line...
+  // which consists entirely of points where lat == lng to at least 3 digits
+  return data.filter(d => Number(d.lat).toFixed(3) !== Number(d.lng).toFixed(3));
+}
+
+
 function Map() {
   const mapRef = useRef(null);
 
@@ -13,27 +20,30 @@ function Map() {
   const [linkFilter, setLinkFilter] = useState(null);
 
   const sourceDataID = "queries";
+  const processedData = filterExceptions(rawQueryData);
 
   useEffect(() => {
-    const featureData = {
-      type: "FeatureCollection",
-      features: rawQueryData.map((query) => ({
-        type: "feature",
-        properties: query,
-        geometry: {
-          type: "Point",
-          coordinates: [Number(query.lng), Number(query.lat)],
-        },
-      })),
-    };
+    if (mapboxMap === null) {
+      const featureData = {
+        type: "FeatureCollection",
+        features: processedData.map((query) => ({
+          type: "feature",
+          properties: query,
+          geometry: {
+            type: "Point",
+            coordinates: [Number(query.lng), Number(query.lat)],
+          },
+        })),
+      };
 
-    const map = initMap(mapRef, featureData, sourceDataID);
-    setMapboxMap(map);
+      const map = initMap(mapRef, featureData, sourceDataID);
+      setMapboxMap(map);
+    }
   }, []);
 
   useEffect(() => {
     if (mapboxMap !== null && typeof mapboxMap.getSource("queries") !== "undefined") {
-      const filteredData = rawQueryData
+      const filteredData = processedData
         .filter((d) =>
           dateRangeFilter === null
             ? true
