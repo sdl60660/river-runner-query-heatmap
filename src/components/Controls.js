@@ -13,7 +13,7 @@ const dateValueLabelFormat = (value) => {
     day: "numeric",
     hour: "2-digit",
     minute: "2-digit",
-    timeZoneName: "short" 
+    timeZoneName: "short",
   });
 };
 
@@ -46,7 +46,12 @@ const Controls = ({ dataset, setDateRangeFilter, setLinkFilter }) => {
 
   return (
     <div className="controls-wrapper">
-      <Box sx={{ width: 325 }}>
+      <p className={"explainer"}>
+        This heatmap shows search locations for the{" "}
+        <a href="https://river-runner-global.samlearner.com/">Global River Runner</a> through{" "}
+        {dateValueLabelFormat(allDates.slice(-1)[0])}.
+      </p>
+      <Box sx={{ width: 325, padding: "5px" }}>
         Timestamp of Query:
         <Slider
           min={allDates[0]}
@@ -57,7 +62,7 @@ const Controls = ({ dataset, setDateRangeFilter, setLinkFilter }) => {
           value={dateRange}
           onChange={handleDateChange}
           valueLabelDisplay="auto"
-          // getAriaValueText={dateValueLabelFormat}
+          getAriaValueText={dateValueLabelFormat}
           valueLabelFormat={dateValueLabelFormat}
         />
       </Box>
@@ -74,7 +79,7 @@ const Controls = ({ dataset, setDateRangeFilter, setLinkFilter }) => {
               value={shareLink}
               label="From Share Link?"
               onChange={handleSharelinkChange}
-              sx={{ width: 120 }}
+              sx={{ width: 120, maxHeight: "2.5rem" }}
             >
               <MenuItem value={"all"}>All</MenuItem>
               <MenuItem value={"yes"}>Yes</MenuItem>
