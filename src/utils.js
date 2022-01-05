@@ -8,8 +8,8 @@ export const initMap = (ref, featureData, sourceID = "queries") => {
   const map = new mapboxgl.Map({
     container: ref.current,
     style: "mapbox://styles/mapbox/dark-v10",
-    center: [-120, 50],
-    zoom: 3,
+    center: [5, 20],
+    zoom: 2,
     minZoom: 2,
   });
 
