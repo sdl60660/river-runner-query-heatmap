@@ -11,6 +11,7 @@ const filterExceptions = (data) => {
   return data.filter(d => Number(d.lat).toFixed(3) !== Number(d.lng).toFixed(3));
 }
 
+const processedData = filterExceptions(rawQueryData);
 
 function Map() {
   const mapRef = useRef(null);
@@ -20,7 +21,6 @@ function Map() {
   const [linkFilter, setLinkFilter] = useState(null);
 
   const sourceDataID = "queries";
-  const processedData = filterExceptions(rawQueryData);
 
   useEffect(() => {
     if (mapboxMap === null) {
@@ -39,7 +39,7 @@ function Map() {
       const map = initMap(mapRef, featureData, sourceDataID);
       setMapboxMap(map);
     }
-  }, []);
+  }, [mapboxMap]);
 
   useEffect(() => {
     if (mapboxMap !== null && typeof mapboxMap.getSource("queries") !== "undefined") {
