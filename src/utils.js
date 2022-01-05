@@ -1,7 +1,7 @@
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 
 // Based on this example: https://docs.mapbox.com/mapbox-gl-js/example/heatmap-layer/
-export const initMap = (ref, featureData) => {
+export const initMap = (ref, featureData, sourceID="queries") => {
   mapboxgl.accessToken =
     "pk.eyJ1Ijoic2FtbGVhcm5lciIsImEiOiJja2IzNTFsZXMwaG44MzRsbWplbGNtNHo0In0.BmjC6OX6egwKdm0fAmN_Nw";
 
@@ -16,16 +16,16 @@ export const initMap = (ref, featureData) => {
   map.on("load", () => {
     // Add a geojson point source.
     // Heatmap layers also work with a vector tile source.
-    map.addSource("earthquakes", {
+    map.addSource(sourceID, {
       type: "geojson",
       data: featureData,
     });
 
     map.addLayer(
       {
-        id: "earthquakes-heat",
+        id: "queries-heat",
         type: "heatmap",
-        source: "earthquakes",
+        source: sourceID,
         maxzoom: 9,
         paint: {
           "heatmap-weight": 0.3,
@@ -61,9 +61,9 @@ export const initMap = (ref, featureData) => {
 
     map.addLayer(
       {
-        id: "earthquakes-point",
+        id: "query-point",
         type: "circle",
-        source: "earthquakes",
+        source: sourceID,
         minzoom: 7,
         paint: {
           "circle-radius": 3,
@@ -76,4 +76,10 @@ export const initMap = (ref, featureData) => {
       "waterway-label"
     );
   });
+
+  return map;
 };
+
+export const updateMapData = (map, newData, sourceID="queries") => {
+    map.getSource(sourceID).setData(newData);
+}
