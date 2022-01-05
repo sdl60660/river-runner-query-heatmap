@@ -74,10 +74,11 @@ const Controls = ({ dataset, setDateRangeFilter, setLinkFilter }) => {
               value={shareLink}
               label="From Share Link?"
               onChange={handleSharelinkChange}
+              sx={{ width: 120 }}
             >
               <MenuItem value={"all"}>All</MenuItem>
-              <MenuItem value={"yes"}>Yes, Only</MenuItem>
-              <MenuItem value={"no"}>No, Only</MenuItem>
+              <MenuItem value={"yes"}>Yes</MenuItem>
+              <MenuItem value={"no"}>No</MenuItem>
             </Select>
           </Grid>
         </Grid>

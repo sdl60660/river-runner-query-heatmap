@@ -21,6 +21,10 @@ export const initMap = (ref, featureData, sourceID = "queries") => {
       data: featureData,
     });
 
+    // Scaling this at a particular moment when there are 65,000 points
+    // This will then keep the weight constant as more points are added
+    const pointWeight = 0.4*(65000 / featureData.features.length);
+
     map.addLayer(
       {
         id: "queries-heat",
@@ -28,8 +32,8 @@ export const initMap = (ref, featureData, sourceID = "queries") => {
         source: sourceID,
         maxzoom: 9,
         paint: {
-          "heatmap-weight": 0.5,
-          "heatmap-intensity": ["interpolate", ["linear"], ["zoom"], 0, 1, 9, 2.5],
+          "heatmap-weight": pointWeight,
+          "heatmap-intensity": ["interpolate", ["linear"], ["zoom"], 0, 1, 9, 2.3],
           // Color ramp for heatmap.  Domain is 0 (low) to 1 (high).
           // Begin color ramp at 0-stop with a 0-transparancy color
           // to create a blur-like effect.
