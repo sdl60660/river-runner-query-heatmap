@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { useEffect, useRef } from "react";
+
+import { initMap } from "./utils";
+import rawQueryData from "./data/all_queries.json";
 
 function App() {
+  const mapRef = useRef(null);
+
+  useEffect(() => {
+    const featureData = {
+      type: "FeatureCollection",
+      features: rawQueryData.map((query) => ({
+        type: "feature",
+        properties: query,
+        geometry: {
+          type: "Point",
+          coordinates: [Number(query.lng), Number(query.lat)],
+        },
+      })),
+    };
+
+    initMap(mapRef, featureData);
+
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div id={"map"} ref={mapRef}></div>
     </div>
   );
 }
