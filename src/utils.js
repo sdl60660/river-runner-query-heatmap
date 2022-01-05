@@ -79,17 +79,17 @@ export const initMap = (ref, featureData, sourceID = "queries") => {
     // When a click event occurs on a feature in the places layer, open a popup at the
     // location of the feature, with description HTML from its properties.
     // Create a popup, but don't add it to the map yet.
-    const popup = new mapboxgl.Popup({
-      closeButton: false,
-      closeOnClick: false,
-    });
+    // const popup = new mapboxgl.Popup({
+    //   closeButton: false,
+    //   closeOnClick: false,
+    // });
 
     map.on("mouseenter", "query-point", (e) => {
       map.getCanvas().style.cursor = "pointer";
 
       // Copy coordinates array.
       const coordinates = e.features[0].geometry.coordinates.slice();
-      const description = e.features[0].properties.description;
+      //   const description = e.features[0].properties.description;
 
       // Ensure that if the map is zoomed out such that multiple
       // copies of the feature are visible, the popup appears
@@ -97,8 +97,6 @@ export const initMap = (ref, featureData, sourceID = "queries") => {
       while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
         coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
       }
-
-      //   console.log({ coordinates, click: e.lngLat });
 
       //   new mapboxgl.Popup({
       //     closeButton: false,
