@@ -21,9 +21,13 @@ export const initMap = (ref, featureData, sourceID = "queries") => {
     container: ref.current,
     style: "mapbox://styles/mapbox/dark-v10",
     center: [5, 20],
-    zoom: 2,
-    minZoom: 2,
+    zoom: 1.8,
+    minZoom: 1.8,
   });
+
+  map.dragRotate.disable();
+  map.touchPitch.disable();
+  map.touchZoomRotate.disableRotation();
 
   map.on("load", () => {
     // Add a geojson point source.

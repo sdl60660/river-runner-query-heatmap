@@ -56,7 +56,7 @@ const Controls = ({ dataset, setDateRangeFilter, setLinkFilter }) => {
         <Slider
           min={allDates[0]}
           max={allDates.slice(-1)[0]}
-          step={60000}
+          step={600000}
           defaultValue={[allDates[0], allDates.slice(-1)[0]]}
           getAriaLabel={() => "Date Range"}
           value={dateRange}
