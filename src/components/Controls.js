@@ -6,7 +6,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Grid from "@mui/material/Grid";
 
-const dateValueLabelFormat = (value) => {
+export const dateValueLabelFormat = (value) => {
   return new Date(value).toLocaleString("en-US", {
     year: "numeric",
     month: "numeric",

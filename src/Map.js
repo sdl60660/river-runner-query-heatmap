@@ -1,6 +1,5 @@
 import "./Map.css";
 import { useState, useEffect, useRef } from "react";
-import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 
 import Controls from "./components/Controls";
 import { initMap, updateMapData } from "./utils";
@@ -16,7 +15,6 @@ const processedData = filterExceptions(rawQueryData);
 
 function Map() {
   const mapRef = useRef(null);
-  const tooltipRef = useRef(new mapboxgl.Popup({ offset: 15, closeButton: false }));
 
   const [mapboxMap, setMapboxMap] = useState(null);
   const [dateRangeFilter, setDateRangeFilter] = useState(null);
@@ -38,7 +36,7 @@ function Map() {
         })),
       };
 
-      const map = initMap(mapRef, featureData, tooltipRef, sourceDataID);
+      const map = initMap(mapRef, featureData, sourceDataID);
       setMapboxMap(map);
     }
   }, [mapboxMap]);
@@ -70,14 +68,15 @@ function Map() {
   }, [mapboxMap, dateRangeFilter, linkFilter]);
 
   return (
-    <div className="Map">
+    // <div className="Map">
+    <>
       <div id={"map"} ref={mapRef} />
       <Controls
         dataset={rawQueryData}
         setDateRangeFilter={setDateRangeFilter}
         setLinkFilter={setLinkFilter}
       />
-    </div>
+    </>
   );
 }
 
