@@ -83,10 +83,10 @@ export const initMap = (ref, featureData, sourceID = "queries") => {
     // When a click event occurs on a feature in the places layer, open a popup at the
     // location of the feature, with description HTML from its properties.
     // Create a popup, but don't add it to the map yet.
-    // const popup = new mapboxgl.Popup({
-    //   closeButton: false,
-    //   closeOnClick: false,
-    // });
+    const popup = new mapboxgl.Popup({
+      closeButton: false,
+      closeOnClick: false,
+    });
 
     map.on("mouseenter", "query-point", (e) => {
       map.getCanvas().style.cursor = "pointer";
@@ -111,7 +111,7 @@ export const initMap = (ref, featureData, sourceID = "queries") => {
       //     .setHTML("<h1>Test</h1>")
       //     .addTo(map);
 
-      //   popup.setLngLat(coordinates).setHTML("<div>Test</div>").addTo(map);
+        popup.setLngLat(coordinates).setHTML("<div>Test</div>").addTo(map);
     });
 
     // Change the cursor to a pointer when the mouse is over the places layer.
@@ -122,7 +122,7 @@ export const initMap = (ref, featureData, sourceID = "queries") => {
     // Change it back to a pointer when it leaves.
     map.on("mouseleave", "query-point", () => {
       map.getCanvas().style.cursor = "";
-      // popup.remove();
+      popup.remove();
     });
   });
 

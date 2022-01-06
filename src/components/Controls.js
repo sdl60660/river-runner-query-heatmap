@@ -51,7 +51,7 @@ const Controls = ({ dataset, setDateRangeFilter, setLinkFilter }) => {
         <a href="https://river-runner-global.samlearner.com/">Global River Runner</a> through{" "}
         {dateValueLabelFormat(allDates.slice(-1)[0])}.
       </p>
-      <Box sx={{ width: 325, padding: "5px" }}>
+      <Box sx={{ width: 325, padding: "5px", margin: "auto" }}>
         Timestamp of Search:
         <Slider
           min={allDates[0]}
@@ -67,7 +67,7 @@ const Controls = ({ dataset, setDateRangeFilter, setLinkFilter }) => {
         />
       </Box>
 
-      <Box sx={{ width: 325 }}>
+      <Box sx={{ width: 325, margin: "auto" }}>
         <Grid container alignItems={"center"} justifyContent={"center"} spacing={2}>
           <Grid item>
             <InputLabel id="share-link-select-label">From Share Link?</InputLabel>
