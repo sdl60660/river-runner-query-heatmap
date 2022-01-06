@@ -16,7 +16,6 @@ code {
   top: 0;
   bottom: 0;
   width: 100%;
-  box-sizing: border-box;
 }
 
 .controls-wrapper {

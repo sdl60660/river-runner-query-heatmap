@@ -1,5 +1,6 @@
 import "./Map.css";
 import { useState, useEffect, useRef } from "react";
+import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 
 import Controls from "./components/Controls";
 import { initMap, updateMapData } from "./utils";
@@ -8,13 +9,14 @@ import rawQueryData from "./data/all_queries.json";
 const filterExceptions = (data) => {
   // this takes care of the mysterious diagonal line...
   // which consists entirely of points where lat == lng to at least 3 digits
-  return data.filter(d => Number(d.lat).toFixed(3) !== Number(d.lng).toFixed(3));
-}
+  return data.filter((d) => Number(d.lat).toFixed(3) !== Number(d.lng).toFixed(3));
+};
 
 const processedData = filterExceptions(rawQueryData);
 
 function Map() {
   const mapRef = useRef(null);
+  const tooltipRef = useRef(new mapboxgl.Popup({ offset: 15, closeButton: false }));
 
   const [mapboxMap, setMapboxMap] = useState(null);
   const [dateRangeFilter, setDateRangeFilter] = useState(null);
@@ -36,7 +38,7 @@ function Map() {
         })),
       };
 
-      const map = initMap(mapRef, featureData, sourceDataID);
+      const map = initMap(mapRef, featureData, tooltipRef, sourceDataID);
       setMapboxMap(map);
     }
   }, [mapboxMap]);
@@ -69,13 +71,12 @@ function Map() {
 
   return (
     <div className="Map">
-      <div id={"map"} ref={mapRef}>
-        <Controls
-          dataset={rawQueryData}
-          setDateRangeFilter={setDateRangeFilter}
-          setLinkFilter={setLinkFilter}
-        />
-      </div>
+      <div id={"map"} ref={mapRef} />
+      <Controls
+        dataset={rawQueryData}
+        setDateRangeFilter={setDateRangeFilter}
+        setLinkFilter={setLinkFilter}
+      />
     </div>
   );
 }

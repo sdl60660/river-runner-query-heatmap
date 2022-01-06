@@ -1,7 +1,9 @@
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
+import Tooltip from "./components/Tooltip";
+import ReactDOM from "react-dom";
 
 // Based on this example: https://docs.mapbox.com/mapbox-gl-js/example/heatmap-layer/
-export const initMap = (ref, featureData, sourceID = "queries") => {
+export const initMap = (ref, featureData, tooltipRef, sourceID = "queries") => {
   mapboxgl.accessToken =
     "pk.eyJ1Ijoic2FtbGVhcm5lciIsImEiOiJja2IzNTFsZXMwaG44MzRsbWplbGNtNHo0In0.BmjC6OX6egwKdm0fAmN_Nw";
 
@@ -23,7 +25,7 @@ export const initMap = (ref, featureData, sourceID = "queries") => {
 
     // Scaling this at a particular moment when there are 65,000 points
     // This will then keep the weight constant as more points are added
-    const pointWeight = 0.4*(65000 / featureData.features.length);
+    const pointWeight = 0.4 * (65000 / featureData.features.length);
 
     map.addLayer(
       {
@@ -76,54 +78,64 @@ export const initMap = (ref, featureData, sourceID = "queries") => {
           "circle-stroke-width": 1,
           "circle-opacity": ["interpolate", ["linear"], ["zoom"], 7, 0, 8, 1],
         },
-      },
-      "waterway-label"
+      }
     );
 
     // When a click event occurs on a feature in the places layer, open a popup at the
     // location of the feature, with description HTML from its properties.
     // Create a popup, but don't add it to the map yet.
-    const popup = new mapboxgl.Popup({
-      closeButton: false,
-      closeOnClick: false,
-    });
-
-    map.on("mouseenter", "query-point", (e) => {
-      map.getCanvas().style.cursor = "pointer";
-
-      // Copy coordinates array.
-      const coordinates = e.features[0].geometry.coordinates.slice();
-      //   const description = e.features[0].properties.description;
-
-      // Ensure that if the map is zoomed out such that multiple
-      // copies of the feature are visible, the popup appears
-      // over the copy being pointed to.
-      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-      }
-
-      //   new mapboxgl.Popup({
-      //     closeButton: false,
-      //     closeOnMove: true,
-      //     // className: "pop-up",
-      //   })
-      //     .setLngLat(coordinates)
-      //     .setHTML("<h1>Test</h1>")
-      //     .addTo(map);
-
-        popup.setLngLat(coordinates).setHTML("<div>Test</div>").addTo(map);
-    });
-
-    // Change the cursor to a pointer when the mouse is over the places layer.
-    // map.on("mouseenter", "query-point", () => {
-    //   map.getCanvas().style.cursor = "pointer";
+    // const popup = new mapboxgl.Popup({
+    //   closeButton: false,
+    //   closeOnClick: false,
     // });
+  });
 
-    // Change it back to a pointer when it leaves.
-    map.on("mouseleave", "query-point", () => {
-      map.getCanvas().style.cursor = "";
-      popup.remove();
-    });
+  map.on("click", "query-point", (e) => {
+    const feature = e.features[0];
+
+    // Copy coordinates array.
+    const coordinates = feature.geometry.coordinates.slice();
+    //   const description = e.features[0].properties.description;
+
+    // Ensure that if the map is zoomed out such that multiple
+    // copies of the feature are visible, the popup appears
+    // over the copy being pointed to.
+    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+      coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+    }
+
+    // Create tooltip node
+    const tooltipNode = document.createElement("div");
+    ReactDOM.render(<Tooltip feature={feature} />, tooltipNode);
+
+    console.log(e);
+
+    // Set tooltip on map
+    tooltipRef.current.setLngLat(coordinates).setDOMContent(tooltipNode).addTo(map);
+
+    console.log(tooltipRef.current.getLngLat());
+
+    // const popup = new mapboxgl.Popup({
+    //   closeButton: false,
+    //   closeOnMove: false,
+    //   // className: "pop-up",
+    // })
+    //   .setLngLat(coordinates)
+    //   .setHTML("<div>Test</div>")
+    //   .addTo(map);
+
+    // popup.setLngLat(coordinates).setHTML("<div>Test</div>").addTo(map);
+  });
+
+  // Change the cursor to a pointer when the mouse is over the places layer.
+  map.on("mouseenter", "query-point", () => {
+    map.getCanvas().style.cursor = "pointer";
+  });
+
+  // Change it back to a pointer when it leaves.
+  map.on("mouseleave", "query-point", () => {
+    map.getCanvas().style.cursor = "";
+    //   popup.remove();
   });
 
   return map;
