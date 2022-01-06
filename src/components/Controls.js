@@ -47,7 +47,7 @@ const Controls = ({ dataset, setDateRangeFilter, setLinkFilter }) => {
   return (
     <div className="controls-wrapper" tabIndex="0" aria-label={"Filters for map"}>
       <p className={"explainer"}>
-        This heatmap shows search locations for the{" "}
+        This heatmap shows path search locations for the{" "}
         <a href="https://river-runner-global.samlearner.com/">Global River Runner</a> through{" "}
         {dateValueLabelFormat(allDates.slice(-1)[0])}.
       </p>
