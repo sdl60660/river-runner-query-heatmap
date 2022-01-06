@@ -7,7 +7,7 @@ const formatTooltipContent = (feature) => {
   return (`
     <div class="tooltip-content">
       <div>Searched at: ${dateValueLabelFormat(timestamp)}</div>
-      <div><a href="https://river-runner-global.samlearner.com?lat=${lat}&lng=${lng}" target="_blank" rel="noreferrer">Path Link</div>
+      <div><a href="https://river-runner-global.samlearner.com?lng=${lng}&lat=${lat}" target="_blank" rel="noreferrer">Path Link</div>
     </div>
   `)
 }
